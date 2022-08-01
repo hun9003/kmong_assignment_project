@@ -1,8 +1,8 @@
 package com.parkjinhun.kmong.kmong_assignment_project.common.response;
 
 import com.google.common.collect.Lists;
-import dev.practice.order.common.exception.BaseException;
-import dev.practice.order.common.interceptor.CommonHttpRequestInterceptor;
+import com.parkjinhun.kmong.kmong_assignment_project.common.exception.BaseException;
+import com.parkjinhun.kmong.kmong_assignment_project.common.interceptor.CommonHttpRequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.MDC;
