@@ -1,6 +1,6 @@
 package com.parkjinhun.kmong.kmong_assignment_project.common.exception;
 
-import dev.practice.order.common.response.ErrorCode;
+import com.parkjinhun.kmong.kmong_assignment_project.common.response.ErrorCode;
 
 public class EntityNotFoundException extends BaseException {
 
