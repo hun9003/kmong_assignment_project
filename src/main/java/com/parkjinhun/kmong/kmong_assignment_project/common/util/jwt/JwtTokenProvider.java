@@ -3,6 +3,7 @@ package com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt;
 import com.parkjinhun.kmong.kmong_assignment_project.common.exception.BaseException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.exception.InvalidParamException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.response.ErrorCode;
+import com.parkjinhun.kmong.kmong_assignment_project.common.util.redis.RedisUtil;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.member.token.TokenInfo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -34,7 +35,10 @@ public class JwtTokenProvider {
 
     private final Key key;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    private final RedisUtil redisUtil;
+
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, RedisUtil redisUtil) {
+        this.redisUtil = redisUtil;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -94,6 +98,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            if(redisUtil.hasKeyBlackList(token)) {
+                throw new BaseException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
+            }
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
