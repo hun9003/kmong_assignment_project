@@ -1,5 +1,6 @@
 package com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt;
 
+import com.parkjinhun.kmong.kmong_assignment_project.common.exception.BaseException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.exception.InvalidParamException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.response.ErrorCode;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.member.token.TokenInfo;
@@ -96,14 +97,17 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
+            throw new BaseException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
+            throw new BaseException(ErrorCode.MEMBER_FAIL_EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
+            throw new BaseException(ErrorCode.MEMBER_FAIL_UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+            throw new BaseException(ErrorCode.COMMON_INVALID_PARAMETER);
         }
-        return false;
     }
 
     private Claims parseClaims(String accessToken) {
