@@ -1,5 +1,6 @@
 package com.parkjinhun.kmong.kmong_assignment_project.common.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonResponse<T> {
+    @ApiModelProperty(value = "Response 성공 여부", example = "SUCCESS")
     private Result result;
+    @ApiModelProperty(value = "Response 데이터")
     private T data;
+    @ApiModelProperty(value = "Response 메시지", example = "성공 메시지")
     private String message;
+    @ApiModelProperty(value = "Response 에러 코드")
     private String errorCode;
 
     public static <T> CommonResponse<T> success(T data, String message) {

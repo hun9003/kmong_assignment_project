@@ -3,6 +3,7 @@ package com.parkjinhun.kmong.kmong_assignment_project.domain.member;
 import com.parkjinhun.kmong.kmong_assignment_project.common.exception.InvalidParamException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.response.ErrorCode;
 import com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt.JwtTokenProvider;
+import com.parkjinhun.kmong.kmong_assignment_project.common.util.redis.RedisUtil;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.member.token.TokenInfo;
 import com.parkjinhun.kmong.kmong_assignment_project.interfaces.member.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate redisTemplate;
+    private final RedisUtil redisUtil;
 
     @Transactional
     @Override
@@ -89,10 +91,10 @@ public class MemberServiceImpl implements MemberService {
         // 1. Access Token 검증
         if (!jwtTokenProvider.validateToken(logout.getAccessToken())) throw new InvalidParamException(ErrorCode.COMMON_BAD_REQUEST);
 
-        // 2. Access Token 에서 User email 을 가져옵니다.
+        // 2. Access Token 에서 User ID 을 가져옵니다.
         Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
 
-        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제 합니다.
+        // 3. Redis 에서 해당 User ID 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제 합니다.
         if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
             // Refresh Token 삭제
             redisTemplate.delete("RT:" + authentication.getName());
@@ -100,7 +102,6 @@ public class MemberServiceImpl implements MemberService {
 
         // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
-        redisTemplate.opsForValue()
-                .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+        redisUtil.setBlackList(logout.getAccessToken(), "access_token", expiration);
     }
 }
