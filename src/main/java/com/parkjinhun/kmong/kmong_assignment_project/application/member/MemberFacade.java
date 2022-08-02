@@ -30,8 +30,4 @@ public class MemberFacade {
     public void logoutMember(MemberDto.LogoutRequest logout) {
         memberService.logoutMember(logout);
     }
-
-    public void authority() {
-        memberService.authority();
-    }
 }

@@ -3,8 +3,6 @@ package com.parkjinhun.kmong.kmong_assignment_project.domain.member;
 import com.parkjinhun.kmong.kmong_assignment_project.common.exception.InvalidParamException;
 import com.parkjinhun.kmong.kmong_assignment_project.common.response.ErrorCode;
 import com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt.JwtTokenProvider;
-import com.parkjinhun.kmong.kmong_assignment_project.config.security.SecurityUtil;
-import com.parkjinhun.kmong.kmong_assignment_project.domain.member.role.Authority;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.member.token.TokenInfo;
 import com.parkjinhun.kmong.kmong_assignment_project.interfaces.member.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -104,16 +102,5 @@ public class MemberServiceImpl implements MemberService {
         Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
         redisTemplate.opsForValue()
                 .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
-    public void authority() {
-        String userId = SecurityUtil.getCurrentUserId();
-
-        var member = memberReader.getMemberById(userId);
-
-        // add ROLE_ADMIN
-        member.getRoles().add(Authority.ROLE_ADMIN.name());
-        memberStore.saveMember(member);
     }
 }

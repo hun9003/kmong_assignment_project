@@ -8,6 +8,5 @@ public interface MemberService {
     TokenInfo loginMember(MemberCommand.LoginMember command);
     TokenInfo reissueToken(MemberDto.ReissueTokenRequest reissue);
     void logoutMember(MemberDto.LogoutRequest logout);
-    void authority();
 
 }

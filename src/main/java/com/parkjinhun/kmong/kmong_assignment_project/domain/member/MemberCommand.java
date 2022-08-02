@@ -1,10 +1,13 @@
 package com.parkjinhun.kmong.kmong_assignment_project.domain.member;
 
 import com.parkjinhun.kmong.kmong_assignment_project.common.util.HashGenerator;
+import com.parkjinhun.kmong.kmong_assignment_project.domain.member.role.Authority;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import java.util.Collections;
 
 public class MemberCommand {
 
@@ -21,6 +24,7 @@ public class MemberCommand {
                     .memberId(memberId)
                     .memberEmail(memberEmail)
                     .memberPassword(HashGenerator.passwordEncoder(memberPassword))
+                    .roles(Collections.singletonList(Authority.ROLE_USER.name()))
                     .build();
         }
     }

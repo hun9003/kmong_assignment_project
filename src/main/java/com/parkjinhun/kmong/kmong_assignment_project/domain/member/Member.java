@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -37,7 +36,7 @@ public class Member extends AbstractEntity implements UserDetails {
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    public Member(String memberId, String memberEmail, String memberPassword) {
+    public Member(String memberId, String memberEmail, String memberPassword, List<String> roles) {
         if (StringUtils.isEmpty(memberId)) throw new InvalidParamException("empty memberId");
         if (StringUtils.isEmpty(memberEmail)) throw new InvalidParamException("empty memberEmail");
         if (StringUtils.isEmpty(memberPassword)) throw new InvalidParamException("empty memberPassword");
@@ -45,6 +44,7 @@ public class Member extends AbstractEntity implements UserDetails {
         this.memberId = memberId;
         this.memberEmail = memberEmail;
         this.memberPassword = memberPassword;
+        this.roles = roles;
     }
 
 
