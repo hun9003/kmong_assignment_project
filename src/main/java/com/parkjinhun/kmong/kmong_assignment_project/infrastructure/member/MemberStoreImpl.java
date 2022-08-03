@@ -16,4 +16,9 @@ public class MemberStoreImpl implements MemberStore {
     public Member saveMember(Member member) {
         return memberRepository.save(member);
     }
+
+    @Override
+    public void deleteAll() {
+        memberRepository.deleteAll();
+    }
 }

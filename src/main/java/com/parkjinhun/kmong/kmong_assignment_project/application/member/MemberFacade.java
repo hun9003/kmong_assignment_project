@@ -30,4 +30,8 @@ public class MemberFacade {
     public void logoutMember(MemberDto.LogoutRequest logout) {
         memberService.logoutMember(logout);
     }
+
+    public void deleteAllMember() {
+        memberService.deleteAllMember();
+    }
 }

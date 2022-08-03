@@ -89,13 +89,13 @@ public class MemberDto {
         @NotEmpty(message = "accessToken 은 필수 값 입니다.")
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIzNDUiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU5NDQ2NjU0fQ.WLmpRAaJ60LtLOrBmKkWNYOy1BOZw-hG8CuZEVlMKXw",
-                notes = "회원의 엑세스 토큰 입니다.", required = true)
+                notes = "회원의 엑세스 토큰 입니다.")
         private String accessToken;
 
         @NotEmpty(message = "refreshToken 은 필수 값 입니다.")
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAwNDk2NTR9.ExqgYevzLDn6Z2YPBpaA0mCFODlSjdRZgAokUe_zr98",
-                notes = "회원의 리프레시 토큰 입니다.", required = true)
+                notes = "회원의 리프레시 토큰 입니다.")
         private String refreshToken;
     }
 
@@ -107,13 +107,13 @@ public class MemberDto {
         @NotEmpty(message = "잘못된 요청 입니다.")
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIzNDUiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU5NDQ2NjU0fQ.WLmpRAaJ60LtLOrBmKkWNYOy1BOZw-hG8CuZEVlMKXw",
-                notes = "회원의 엑세스 토큰 입니다.", required = true)
+                notes = "회원의 엑세스 토큰 입니다.")
         private String accessToken;
 
         @NotEmpty(message = "잘못된 요청 입니다.")
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAwNDk2NTR9.ExqgYevzLDn6Z2YPBpaA0mCFODlSjdRZgAokUe_zr98",
-                notes = "회원의 리프레시 토큰 입니다.", required = true)
+                notes = "회원의 리프레시 토큰 입니다.")
         private String refreshToken;
     }
 
@@ -122,22 +122,22 @@ public class MemberDto {
     public static class TokenInfoResponse {
         @ApiModelProperty(name = "grantType",
                 example = "Bearer",
-                notes = "회원의 토큰 유형 입니다.", required = true)
+                notes = "회원의 토큰 유형 입니다.")
         private final String grantType;
 
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIzNDUiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjU5NDQ2NjU0fQ.WLmpRAaJ60LtLOrBmKkWNYOy1BOZw-hG8CuZEVlMKXw",
-                notes = "회원의 엑세스 토큰 입니다.", required = true)
+                notes = "회원의 엑세스 토큰 입니다.")
         private final String accessToken;
 
         @ApiModelProperty(name = "accessToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAwNDk2NTR9.ExqgYevzLDn6Z2YPBpaA0mCFODlSjdRZgAokUe_zr98",
-                notes = "회원의 리프레시 토큰 입니다.", required = true)
+                notes = "회원의 리프레시 토큰 입니다.")
         private final String refreshToken;
 
         @ApiModelProperty(name = "refreshTokenExpirationTime",
                 example = "604800000",
-                notes = "회원의 리프레시 토큰 유효시간 입니다.", required = true)
+                notes = "회원의 리프레시 토큰 유효시간 입니다.")
         private final Long refreshTokenExpirationTime;
 
         public TokenInfoResponse(TokenInfo tokenInfo) {

@@ -9,4 +9,5 @@ public interface MemberService {
     TokenInfo reissueToken(MemberDto.ReissueTokenRequest reissue);
     void logoutMember(MemberDto.LogoutRequest logout);
 
+    void deleteAllMember();
 }

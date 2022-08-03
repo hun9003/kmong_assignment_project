@@ -5,10 +5,7 @@ import com.parkjinhun.kmong.kmong_assignment_project.common.response.CommonRespo
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -55,6 +52,14 @@ public class MemberApiController {
     public CommonResponse<?> logoutMember(@RequestBody @Valid MemberDto.LogoutRequest logoutRequest) {
         memberFacade.logoutMember(logoutRequest);
         return CommonResponse.success("로그아웃이 완료되었습니다.");
+    }
+
+    @DeleteMapping
+    @ApiOperation(value = "회원 일괄 삭제", notes = "등록된 회원을 일괄 삭제 합니다 (테스트용).")
+    @ApiResponse(code = 200, message = "성공시 완료 메시지를 반환 합니다.")
+    public CommonResponse<?> deleteMember() {
+        memberFacade.deleteAllMember();
+        return CommonResponse.success("OK");
     }
 
 }
