@@ -16,7 +16,6 @@ public class ItemInfo {
         private final String memberId;
         private final String itemName;
         private final Long itemPrice;
-        private final Item.Status status;
         private final List<ItemOptionGroupInfo> itemOptionGroupList;
 
         public Main(Item item, List<ItemOptionGroupInfo> itemOptionGroupInfoList) {
@@ -24,7 +23,6 @@ public class ItemInfo {
             this.memberId = item.getMemberId();
             this.itemName = item.getItemName();
             this.itemPrice = item.getItemPrice();
-            this.status = item.getStatus();
             this.itemOptionGroupList = itemOptionGroupInfoList;
         }
     }

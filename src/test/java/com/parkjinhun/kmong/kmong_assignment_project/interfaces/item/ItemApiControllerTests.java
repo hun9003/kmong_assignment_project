@@ -63,7 +63,7 @@ public class ItemApiControllerTests {
     }
 
     // 상품 등록 REQUEST DTO
-    private ItemDto.RegisterItemRequest newItemDto(String accessToken) {
+    private ItemDto.RegisterItemRequest newItemDto() {
         List<ItemDto.RegisterItemOptionGroupRequest> itemOptionGroups = new ArrayList<>();
         List<ItemDto.RegisterItemOptionRequest> itemOptions1 = new ArrayList<>();
         var itemSizeOption1 = ItemDto.RegisterItemOptionRequest.builder()
@@ -121,20 +121,12 @@ public class ItemApiControllerTests {
 
 
         return ItemDto.RegisterItemRequest.builder()
-                .accessToken(accessToken)
                 .itemName("티셔츠")
                 .itemPrice(25000L)
                 .itemOptionGroupList(itemOptionGroups)
                 .build();
     }
 
-    // 상품 상태 변경 REQUEST DTO
-    private ItemDto.ChangeStatusItemRequest changeStatusItemRequest(String itemToken, String accessToken) {
-        return ItemDto.ChangeStatusItemRequest.builder()
-                .itemToken(itemToken)
-                .accessToken(accessToken)
-                .build();
-    }
 
     @Test
     @Transactional
@@ -145,52 +137,11 @@ public class ItemApiControllerTests {
         memberService.registerMember(memberDto.toCommand());
         var loginDto = loginMemberDto(memberDto);
         var tokenInfo = memberService.loginMember(loginDto.toCommand());
-        var request = newItemDto(tokenInfo.getAccessToken());
+        var request = newItemDto();
 
         this.mockMvc.perform(post("/api/v1/items")
                         .header("content-type", "application/json")
-                        .content(mapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("상품 상태 판매중으로 변경 - 정상적으로 데이터를 입력")
-    public void changeOnSaleItem() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        var memberDto = newMemberDto();
-        memberService.registerMember(memberDto.toCommand());
-        var loginDto = loginMemberDto(memberDto);
-        var tokenInfo = memberService.loginMember(loginDto.toCommand());
-        var itemDto = newItemDto(tokenInfo.getAccessToken());
-        var itemToken = itemService.registerItem(itemDtoMapper.of(itemDto), itemDto.getAccessToken());
-        var request = changeStatusItemRequest(itemToken, itemDto.getAccessToken());
-        
-        this.mockMvc.perform(put("/api/v1/items/change-on-sales")
-                        .header("content-type", "application/json")
-                        .content(mapper.writeValueAsString(request))
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("상품 상태 판매 중지로 변경 - 정상적으로 데이터를 입력")
-    public void changeEndOfSaleItem() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        var memberDto = newMemberDto();
-        memberService.registerMember(memberDto.toCommand());
-        var loginDto = loginMemberDto(memberDto);
-        var tokenInfo = memberService.loginMember(loginDto.toCommand());
-        var itemDto = newItemDto(tokenInfo.getAccessToken());
-        var itemToken = itemService.registerItem(itemDtoMapper.of(itemDto), itemDto.getAccessToken());
-        var request = changeStatusItemRequest(itemToken, itemDto.getAccessToken());
-
-        this.mockMvc.perform(put("/api/v1/items/change-end-of-sales")
-                        .header("content-type", "application/json")
+                        .header("Authorization", "Bearer " + tokenInfo.getAccessToken())
                         .content(mapper.writeValueAsString(request))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -205,8 +156,8 @@ public class ItemApiControllerTests {
         memberService.registerMember(memberDto.toCommand());
         var loginDto = loginMemberDto(memberDto);
         var tokenInfo = memberService.loginMember(loginDto.toCommand());
-        var itemDto = newItemDto(tokenInfo.getAccessToken());
-        var itemToken = itemService.registerItem(itemDtoMapper.of(itemDto), itemDto.getAccessToken());
+        var itemDto = newItemDto();
+        var itemToken = itemService.registerItem(itemDtoMapper.of(itemDto), tokenInfo.getAccessToken());
 
         this.mockMvc.perform(get("/api/v1/items/{itemToken}", itemToken)
                         .accept(MediaType.APPLICATION_JSON))

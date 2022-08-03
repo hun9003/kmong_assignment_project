@@ -20,11 +20,15 @@ public class ItemStoreImpl implements ItemStore {
         return itemRepository.save(item);
     }
 
+    @Override
+    public void deleteAll() {
+        itemRepository.deleteAll();
+    }
+
     private void validCheck(Item item) {
         if (StringUtils.isEmpty(item.getItemToken())) throw new InvalidParamException("Item.itemToken");
         if (StringUtils.isEmpty(item.getItemName())) throw new InvalidParamException("Item.itemName");
         if (item.getMemberId() == null) throw new InvalidParamException("Item.memberId");
         if (item.getItemPrice() == null) throw new InvalidParamException("Item.itemPrice");
-        if (item.getStatus() == null) throw new InvalidParamException("Item.status");
     }
 }

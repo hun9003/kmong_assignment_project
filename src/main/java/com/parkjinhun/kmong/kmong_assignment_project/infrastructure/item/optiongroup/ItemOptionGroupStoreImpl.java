@@ -17,4 +17,9 @@ public class ItemOptionGroupStoreImpl implements ItemOptionGroupStore {
     public ItemOptionGroup store(ItemOptionGroup itemOptionGroup) {
         return itemOptionGroupRepository.save(itemOptionGroup);
     }
+
+    @Override
+    public void deleteAll() {
+        itemOptionGroupRepository.deleteAll();
+    }
 }

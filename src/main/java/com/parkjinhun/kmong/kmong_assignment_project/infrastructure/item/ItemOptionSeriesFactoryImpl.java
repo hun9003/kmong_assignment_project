@@ -42,4 +42,10 @@ public class ItemOptionSeriesFactoryImpl implements ItemOptionSeriesFactory {
                     return itemOptionGroup;
                 }).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAll() {
+        itemOptionStore.deleteAll();
+        itemOptionGroupStore.deleteAll();
+    }
 }

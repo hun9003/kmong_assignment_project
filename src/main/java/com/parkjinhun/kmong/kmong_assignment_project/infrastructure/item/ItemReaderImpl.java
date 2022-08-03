@@ -6,7 +6,10 @@ import com.parkjinhun.kmong.kmong_assignment_project.domain.item.ItemInfo;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.item.ItemReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,5 +38,11 @@ public class ItemReaderImpl implements ItemReader {
 
                     return new ItemInfo.ItemOptionGroupInfo(itemOptionGroup, itemOptionInfoList);
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Item> findItemByKeyword(String keyword, Pageable pageable) {
+        return itemRepository.findItemByItemNameContaining(keyword, pageable);
     }
 }

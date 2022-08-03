@@ -17,4 +17,9 @@ public class ItemOptionStoreImpl implements ItemOptionStore {
     public void store(ItemOption itemOption) {
         itemOptionRepository.save(itemOption);
     }
+
+    @Override
+    public void deleteAll() {
+        itemOptionRepository.deleteAll();
+    }
 }
