@@ -1,15 +1,20 @@
 package com.parkjinhun.kmong.kmong_assignment_project.interfaces.order;
 
+import com.parkjinhun.kmong.kmong_assignment_project.domain.order.Order;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 public class OrderDto {
@@ -94,6 +99,7 @@ public class OrderDto {
     @Getter
     @Setter
     @ToString
+    @ApiModel(value = "주문 상품 옵션 등록 요청 데이터", description = "주문 상품 옵션 등록에 필요한 정보 입니다.")
     public static class RegisterOrderItemOptionRequest {
         @NotNull(message = "ordering 는 필수값입니다")
         @ApiModelProperty(name = "ordering", example = "1", notes = "주문 상품의 옵션의 정렬 순서 입니다.", required = true)
@@ -111,6 +117,7 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "상품 주문 응답 데이터", description = "주문 토큰을 반환 합니다.")
     public static class RegisterResponse {
         @ApiModelProperty(name = "orderToken", example = "ord_631eCfNg6g79g40V", notes = "주문 상품의 토큰 입니다.")
         private final String orderToken;
@@ -120,6 +127,7 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "주문 조회 응답 데이터", description = "주문 정보를 반환 합니다.")
     public static class Main {
         @ApiModelProperty(name = "orderToken", example = "ord_631eCfNg6g79g40V", notes = "주문 상품의 토큰 입니다.")
         private final String orderToken;
@@ -142,6 +150,7 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "배송지 정보", description = "주문자 배송지 데이터 입니다.")
     public static class DeliveryInfo {
         @ApiModelProperty(name = "receiverName", example = "홍길동", notes = "주문자 이름 입니다.")
         private final String receiverName;
@@ -160,14 +169,15 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "주문 상품 데이터", description = "주문 상품 데이터 입니다.")
     public static class OrderItem {
 
         @ApiModelProperty(name = "orderCount", example = "1", notes = "주문할 상품의 개수 입니다.")
         private final Integer orderCount;
         @ApiModelProperty(name = "memberId", example = "test1324", notes = "주문자 아이디 입니다.")
         private final String memberId;
-        @ApiModelProperty(name = "itemId", example = "1", notes = "상품의 IDX 입니다.")
-        private final Long itemId;
+        @ApiModelProperty(name = "itemToken", example = "itm_DvPyvXTvyoxPsoglmFUx", notes = "상품의 토큰 입니다.")
+        private final String itemToken;
         @ApiModelProperty(name = "itemName", example = "티셔츠", notes = "상품의 이름 입니다.")
         private final String itemName;
         @ApiModelProperty(name = "totalAmount", example = "120000", notes = "주문한 상품들의 총 가격 입니다.")
@@ -185,6 +195,7 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "주문 상품 옵션 그룹 데이터", description = "주문 상품 옵션 그룹 데이터 입니다.")
     public static class OrderItemOptionGroup {
         @ApiModelProperty(name = "ordering", example = "1", notes = "주문 상품의 옵션 그룹의 정렬 순서 입니다.")
         private final Integer ordering;
@@ -199,6 +210,7 @@ public class OrderDto {
     @Getter
     @Builder
     @ToString
+    @ApiModel(value = "주문 상품 옵션 데이터", description = "주문 상품 옵션 데이터 입니다.")
     public static class OrderItemOption {
         @ApiModelProperty(name = "ordering", example = "1", notes = "주문 상품의 옵션의 정렬 순서 입니다.", required = true)
         private final Integer ordering;
@@ -208,6 +220,66 @@ public class OrderDto {
 
         @ApiModelProperty(name = "itemOptionPrice", example = "0", notes = "주문 상품의 옵션 가격 입니다.", required = true)
         private final Long itemOptionPrice;
+    }
 
+    @Getter
+    @ToString
+    @ApiModel(value = "주문 검색 요청 데이터", description = "조회할 주문 요청 데이터 입니다.")
+    public static class SearchOrderRequest {
+        @Pattern(regexp = "(19|20)\\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])", message = "날짜 형식은 YYYY-MM-DD 형태로 작성 해야 합니다.")
+        @ApiModelProperty(name = "startDate", example = "2022-08-01", notes = "조회할 시작 날짜 입니다.")
+        private final String startDate;
+
+        @Pattern(regexp = "(19|20)\\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])", message = "날짜 형식은 YYYY-MM-DD 형태로 작성 해야 합니다.")
+        @ApiModelProperty(name = "endDate", example = "2022-08-31", notes = "조회할 마지막 날짜 입니다.")
+        private final String endDate;
+
+        @ApiModelProperty(name = "status", notes = "조회할 주문 상태 입니다.")
+        private final Order.Status status;
+
+        public SearchOrderRequest(String startDate, String endDate, Order.Status status) {
+            if (StringUtils.isBlank(startDate)) {
+                LocalDate firstDate = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+                startDate = firstDate.format(DateTimeFormatter.ISO_DATE);
+            }
+            if (StringUtils.isEmpty(endDate)) {
+                LocalDate firstDate = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+                endDate = firstDate.format(DateTimeFormatter.ISO_DATE);
+            }
+            if (status == null) {
+                status = Order.Status.INIT;
+            }
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.status = status;
+        }
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    @ApiModel(value = "주문 리스트 조회 데이터", description = "주문 리스트 조회 데이터 입니다.")
+    public static class OrderListResponse {
+        @ApiModelProperty(name = "page", example = "1", notes = "현재 페이지 입니다.")
+        private final Integer page;
+        @ApiModelProperty(name = "size", example = "50", notes = "현재 페이지 사이즈 입니다.")
+        private final Integer size;
+        @ApiModelProperty(name = "status", notes = "조회한 주문 상태 입니다.")
+        private final Order.Status status;
+        @ApiModelProperty(name = "startDate", example = "2022-08-01", notes = "조회한 시작 날짜 입니다.")
+        private final String startDate;
+        @ApiModelProperty(name = "endDate", example = "2022-08-31", notes = "조회한 마지막 날짜 입니다.")
+        private final String endDate;
+        @ApiModelProperty(name = "orderList", notes = "주문 목록 입니다.")
+        private final List<Main> orderList;
+
+        public OrderListResponse(Integer page, Integer size, Order.Status status, String startDate, String endDate, List<OrderDto.Main> orderList) {
+            this.page = page;
+            this.size = size;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.status = status;
+            this.orderList = orderList;
+        }
     }
 }

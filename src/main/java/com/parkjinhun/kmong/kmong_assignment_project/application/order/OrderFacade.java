@@ -3,9 +3,13 @@ package com.parkjinhun.kmong.kmong_assignment_project.application.order;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.order.OrderCommand;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.order.OrderInfo;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.order.OrderService;
+import com.parkjinhun.kmong.kmong_assignment_project.interfaces.order.OrderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -17,8 +21,11 @@ public class OrderFacade {
         return orderService.registerOrder(registerOrder, accessToken);
     }
 
-    public OrderInfo.Main retrieveOrder(String accessToken) {
-        return orderService.retrieveOrder(accessToken);
+    public OrderInfo.Main retrieveOrder(String accessToken, String orderToken) {
+        return orderService.retrieveOrder(accessToken, orderToken);
     }
 
+    public List<OrderInfo.Main> retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
+        return orderService.retrieveAllOrder(accessToken, searchRequest, pageable);
+    }
 }

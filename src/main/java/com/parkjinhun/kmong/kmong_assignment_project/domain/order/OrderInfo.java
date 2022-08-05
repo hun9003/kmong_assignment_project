@@ -42,7 +42,7 @@ public class OrderInfo {
     public static class OrderItem {
         private final Integer orderCount;
         private final String memberId;
-        private final Long itemId;
+        private final String itemToken;
         private final String itemName;
         private final Long totalAmount;
         private final Long itemPrice;

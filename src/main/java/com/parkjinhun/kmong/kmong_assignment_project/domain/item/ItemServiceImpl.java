@@ -27,7 +27,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public String registerItem(ItemCommand.RegisterItemRequest command, String accessToken) {
-        if (!jwtTokenProvider.validateToken(accessToken)) throw new InvalidParamException(ErrorCode.COMMON_BAD_REQUEST);
+        if (!jwtTokenProvider.validateToken(accessToken)) throw new InvalidParamException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         String memberId = authentication.getName();
 

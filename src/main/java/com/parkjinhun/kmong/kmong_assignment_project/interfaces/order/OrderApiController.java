@@ -9,9 +9,11 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -27,7 +29,7 @@ public class OrderApiController {
     @ApiResponse(code = 200, message = "성공 시 주문 토큰을 반환 합니다.")
     public CommonResponse registerOrder(@RequestBody @Valid OrderDto.RegisterOrderRequest request,
                                         @ApiParam(value = "회원 엑세스 토큰", example = "Bearer {ACCESS_TOKEN}")
-                                        @RequestHeader(value="Authorization", defaultValue = "") String authorization) {
+                                        @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         String token = TokenGenerator.getToken(authorization);
         var orderCommand = orderDtoMapper.of(request);
         var orderToken = orderFacade.registerOrder(orderCommand, token);
@@ -35,14 +37,31 @@ public class OrderApiController {
         return CommonResponse.success(response);
     }
 
-    @GetMapping
-    @ApiOperation(value = "회원 주문 내역 조회", notes = "전달 받은 정보로 상품을 주문 합니다 회원 로그인이 필요한 API 입니다.")
+    @GetMapping("/{orderToken}")
+    @ApiOperation(value = "회원 주문 개별 조회", notes = "회원 주문 상품을 개별 조회 합니다 회원 로그인이 필요한 API 입니다.")
     @ApiResponse(code = 200, message = "성공 시 주문 토큰을 반환 합니다.")
-    public CommonResponse retrieveOrder(@RequestHeader(value="Authorization", defaultValue = "") String authorization) {
+    public CommonResponse retrieveOrder(@PathVariable("orderToken") String orderToken,
+                                        @ApiParam(value = "회원 엑세스 토큰", example = "Bearer {ACCESS_TOKEN}")
+                                        @RequestHeader(value = "Authorization", defaultValue = "") String authorization) {
         String token = TokenGenerator.getToken(authorization);
-        var orderResult = orderFacade.retrieveOrder(token);
+        var orderResult = orderFacade.retrieveOrder(token, orderToken);
         var response = orderDtoMapper.of(orderResult);
         return CommonResponse.success(response);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "회원 주문 내역 조회", notes = "회원 주문 상품을 전체 조회 합니다 회원 로그인이 필요한 API 입니다.")
+    @ApiResponse(code = 200, message = "성공 시 주문 토큰을 반환 합니다.")
+    public CommonResponse retrieveAllOrder(@Valid OrderDto.SearchOrderRequest searchRequest,
+                                            @RequestHeader(value = "Authorization", defaultValue = "") String authorization,
+                                            Pageable pageable) {
+        String token = TokenGenerator.getToken(authorization);
+
+        var orderInfoList = orderFacade.retrieveAllOrder(token, searchRequest, pageable);
+        var orderDtoList = orderInfoList.stream().map(orderDtoMapper::of).collect(Collectors.toList());
+        var response = new OrderDto.OrderListResponse(pageable.getPageNumber(), pageable.getPageSize(), searchRequest.getStatus(),
+                searchRequest.getStartDate(), searchRequest.getEndDate(), orderDtoList);
+        return CommonResponse.success(response, "주문 목록 조회 성공");
     }
 
 }
