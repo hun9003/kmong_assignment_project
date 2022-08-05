@@ -98,10 +98,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            if(redisUtil.hasKeyBlackList(token)) {
-                throw new BaseException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
-            }
-            return true;
+            return !redisUtil.hasKeyBlackList(token);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
             throw new BaseException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);

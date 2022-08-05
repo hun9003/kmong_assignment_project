@@ -1,6 +1,6 @@
 package com.parkjinhun.kmong.kmong_assignment_project.config.security;
 
-import com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt.JwtAuthenticationFilter;
+import com.parkjinhun.kmong.kmong_assignment_project.common.filter.JwtAuthenticationFilter;
 import com.parkjinhun.kmong.kmong_assignment_project.common.util.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
