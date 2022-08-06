@@ -100,17 +100,17 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return !redisUtil.hasKeyBlackList(token);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+//            log.info("Invalid JWT Token", e);
             throw new BaseException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+//            log.info("Expired JWT Token", e);
             throw new BaseException(ErrorCode.MEMBER_FAIL_EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+//            log.info("Unsupported JWT Token", e);
             throw new BaseException(ErrorCode.MEMBER_FAIL_UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-            throw new BaseException(ErrorCode.COMMON_INVALID_PARAMETER);
+//            log.info("JWT claims string is empty.", e);
+            throw new BaseException(ErrorCode.MEMBER_FAIL_NON_LOGIN);
         }
     }
 
