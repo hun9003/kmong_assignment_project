@@ -12,7 +12,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Api(tags = {"회원 API"})
+@Api(tags = {"A. 회원 API"})
 @RequestMapping("/api/v1/members")
 public class MemberApiController {
     private final MemberFacade memberFacade;
@@ -54,12 +54,12 @@ public class MemberApiController {
         return CommonResponse.success("로그아웃이 완료되었습니다.");
     }
 
-    @DeleteMapping
-    @ApiOperation(value = "회원 일괄 삭제", notes = "등록된 회원을 일괄 삭제 합니다 (테스트용).")
-    @ApiResponse(code = 200, message = "성공시 완료 메시지를 반환 합니다.")
-    public CommonResponse<?> deleteMember() {
-        memberFacade.deleteAllMember();
-        return CommonResponse.success("OK");
-    }
+//    @DeleteMapping
+//    @ApiOperation(value = "회원 일괄 삭제", notes = "등록된 회원을 일괄 삭제 합니다 (테스트용).")
+//    @ApiResponse(code = 200, message = "성공시 완료 메시지를 반환 합니다.")
+//    public CommonResponse<?> deleteMember() {
+//        memberFacade.deleteAllMember();
+//        return CommonResponse.success("OK");
+//    }
 
 }

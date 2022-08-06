@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = KmongAssignmentProjectApplication.class)
 @ExtendWith({SpringExtension.class })
-@AutoConfigureRestDocs
 public class MemberApiControllerTests {
     private MockMvc mockMvc;
 
@@ -123,6 +121,26 @@ public class MemberApiControllerTests {
 
     @Test
     @Transactional
+    @DisplayName("로그인 - 잘못된 패스워드를 입력")
+    public void loginMemberBadPassword() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        var request = MemberDto.LoginMemberRequest.builder()
+                .memberId("test12345")
+                .memberPassword("BadPassword!q12!")
+                .build();
+
+        this.mockMvc.perform(post("/api/v1/members/login")
+                        .header("content-type", "application/json")
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect((status().isOk()))
+                .andDo(print());
+    }
+
+
+    @Test
+    @Transactional
     @DisplayName("로그아웃 - 정상적으로 데이터를 입력")
     public void logoutMember() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -144,6 +162,29 @@ public class MemberApiControllerTests {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    @Transactional
+    @DisplayName("로그아웃 - 비로그인 상태에서 접근")
+    public void logoutMemberNonLogin() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        var memberDto = newMemberDto();
+        memberService.registerMember(memberDto.toCommand());
+
+        var request = MemberDto.LogoutRequest.builder()
+                .accessToken("")
+                .refreshToken("")
+                .build();
+
+        this.mockMvc.perform(post("/api/v1/members/logout")
+                        .header("content-type", "application/json")
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
 
     @Test
     @Transactional
