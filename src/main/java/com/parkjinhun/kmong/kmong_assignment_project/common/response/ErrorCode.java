@@ -22,7 +22,8 @@ public enum ErrorCode {
     MEMBER_FAIL_REFRESH_TOKEN("Refresh Token 정보가 일치 하지 않습니다."),
     MEMBER_FAIL_EXPIRED_TOKEN("토큰이 만료 되었습니다."),
     MEMBER_FAIL_INVALID_TOKEN("유효하지 않는 토큰 입니다."),
-    MEMBER_FAIL_UNSUPPORTED_TOKEN("지원하지 않는 토큰 입니다.");
+    MEMBER_FAIL_UNSUPPORTED_TOKEN("지원하지 않는 토큰 입니다."),
+    MEMBER_FAIL_NON_LOGIN("로그인 후 이용 가능 합니다.");
 
 
     private final String errorMsg;
