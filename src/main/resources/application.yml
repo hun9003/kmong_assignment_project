@@ -8,9 +8,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,12 +41,12 @@ spring:
 
 logging:
   config: classpath:logback-local.xml
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql: trace
 
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
