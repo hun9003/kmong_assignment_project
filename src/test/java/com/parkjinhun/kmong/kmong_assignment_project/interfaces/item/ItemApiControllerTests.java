@@ -21,7 +21,8 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -150,14 +151,38 @@ public class ItemApiControllerTests {
 
     @Test
     @Transactional
-    @DisplayName("상품 조회 - 정상적으로 데이터를 입력")
+    @DisplayName("상품 등록 - 비로그인 상태일 때")
+    public void registerItemNoAuthorization() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        var request = newItemDto();
+
+        this.mockMvc.perform(post("/api/v1/items")
+                        .header("content-type", "application/json")
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("상품 전체 조회 - 정상적으로 데이터를 입력")
+    public void retrieveAllItem() throws Exception {
+        this.mockMvc.perform(get("/api/v1/items")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("상품 개별 조회 - 정상적으로 데이터를 입력")
     public void retrieveItem() throws Exception {
         var memberDto = newMemberDto();
         memberService.registerMember(memberDto.toCommand());
         var loginDto = loginMemberDto(memberDto);
         var tokenInfo = memberService.loginMember(loginDto.toCommand());
-        var itemDto = newItemDto();
-        var itemToken = itemService.registerItem(itemDtoMapper.of(itemDto), tokenInfo.getAccessToken());
+        var itemToken = itemService.registerItem(itemDtoMapper.of(newItemDto()), tokenInfo.getAccessToken());
 
         this.mockMvc.perform(get("/api/v1/items/{itemToken}", itemToken)
                         .accept(MediaType.APPLICATION_JSON))
