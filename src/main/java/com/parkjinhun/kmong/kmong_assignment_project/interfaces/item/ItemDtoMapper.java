@@ -29,4 +29,6 @@ public interface ItemDtoMapper {
     ItemDto.ItemOptionGroupInfo of(ItemInfo.ItemOptionGroupInfo itemOptionGroup);
 
     ItemDto.ItemOptionInfo of(ItemInfo.ItemOptionInfo itemOption);
+
+    ItemDto.ItemListResponse of(ItemInfo.ItemList itemListInfo);
 }

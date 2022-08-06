@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,12 +46,19 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemInfo.Main> retrieveAllItemInfo(String keyword, Pageable pageable) {
+    public ItemInfo.ItemList retrieveAllItemInfo(String keyword, Pageable pageable) {
         var itemList = itemReader.findItemByKeyword(keyword, pageable);
-        return itemList.stream().map(item -> {
+        var itemInfoList =  itemList.stream().map(item -> {
             var itemOptionGroupInfoList = itemReader.getItemOptionSeries(item);
             return new ItemInfo.Main(item, itemOptionGroupInfoList);
         }).collect(Collectors.toList());
+        return ItemInfo.ItemList.builder()
+                .page(pageable.getPageNumber()+1)
+                .totalPage(itemList.getTotalPages())
+                .size(pageable.getPageSize())
+                .keyword(keyword)
+                .itemInfoList(itemInfoList)
+                .build();
     }
 
     @Override

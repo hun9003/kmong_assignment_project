@@ -74,20 +74,15 @@ public class ItemDto {
     @ApiModel(value = "상품 리스트 조회 데이터", description = "상품 리스트 조회 데이터 입니다.")
     public static class ItemListResponse {
         @ApiModelProperty(name = "page", example = "1", notes = "현재 페이지 입니다.")
-        private final Integer page;
+        private final int page;
+        @ApiModelProperty(name = "totalPage", example = "10", notes = "전체 페이지 수 입니다.")
+        private final int totalPage;
         @ApiModelProperty(name = "size", example = "50", notes = "현재 페이지 사이즈 입니다.")
-        private final Integer size;
+        private final int size;
         @ApiModelProperty(name = "keyword", example = "티셔츠", notes = "검색 키워드 입니다.")
         private final String keyword;
-        @ApiModelProperty(name = "itemList", notes = "상품의 목록 입니다.")
-        private final List<Main> itemList;
-
-        public ItemListResponse(Integer page, Integer size, String keyword, List<Main> itemList) {
-            this.page = page;
-            this.size = size;
-            this.keyword = keyword;
-            this.itemList = itemList;
-        }
+        @ApiModelProperty(name = "itemInfoList", notes = "상품의 목록 입니다.")
+        private final List<Main> itemInfoList;
     }
     
     @Getter

@@ -2,6 +2,7 @@ package com.parkjinhun.kmong.kmong_assignment_project.domain.item;
 
 import com.parkjinhun.kmong.kmong_assignment_project.domain.item.option.ItemOption;
 import com.parkjinhun.kmong.kmong_assignment_project.domain.item.optiongroup.ItemOptionGroup;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -25,6 +26,17 @@ public class ItemInfo {
             this.itemPrice = item.getItemPrice();
             this.itemOptionGroupList = itemOptionGroupInfoList;
         }
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class ItemList {
+        private final int page;
+        private final int totalPage;
+        private final int size;
+        private final String keyword;
+        private final List<Main> itemInfoList;
     }
 
     @Getter

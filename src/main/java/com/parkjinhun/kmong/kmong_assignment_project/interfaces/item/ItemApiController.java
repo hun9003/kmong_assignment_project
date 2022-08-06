@@ -13,12 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Api(tags = {"상품 API"})
+@Api(tags = {"B. 상품 API"})
 @RequestMapping("/api/v1/items")
 public class ItemApiController {
     private final ItemFacade itemFacade;
@@ -53,15 +52,14 @@ public class ItemApiController {
                                          @ApiParam(value = "상품 이름 검색 키워드", example = "티셔츠")
                                          @RequestParam(value = "query", defaultValue = "") String keyword) {
         var itemInfoList = itemFacade.retrieveAllItemInfo(keyword, pageable);
-        var itemDtoList = itemInfoList.stream().map(itemDtoMapper::of).collect(Collectors.toList());
-        var response = new ItemDto.ItemListResponse(pageable.getPageNumber(), pageable.getPageSize(), keyword, itemDtoList);
+        var response = itemDtoMapper.of(itemInfoList);
         return CommonResponse.success(response, "상품 목록 조회 성공");
     }
 
-    @DeleteMapping
-    @ApiOperation(value = "상품 일괄 삭제", notes = "등록된 상품을 일괄 삭제 합니다 (테스트용).")
-    public CommonResponse<?> deleteAll() {
-        itemFacade.deleteAllItem();
-        return CommonResponse.success("OK");
-    }
+//    @DeleteMapping
+//    @ApiOperation(value = "상품 일괄 삭제", notes = "등록된 상품을 일괄 삭제 합니다 (테스트용).")
+//    public CommonResponse<?> deleteAll() {
+//        itemFacade.deleteAllItem();
+//        return CommonResponse.success("OK");
+//    }
 }

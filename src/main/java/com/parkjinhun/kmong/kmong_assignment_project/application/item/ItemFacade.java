@@ -28,7 +28,7 @@ public class ItemFacade {
         itemService.deleteAllItem();
     }
 
-    public List<ItemInfo.Main> retrieveAllItemInfo(String keyword, Pageable pageable) {
+    public ItemInfo.ItemList retrieveAllItemInfo(String keyword, Pageable pageable) {
         return itemService.retrieveAllItemInfo(keyword, pageable);
     }
 }
