@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -25,7 +23,7 @@ public class OrderFacade {
         return orderService.retrieveOrder(accessToken, orderToken);
     }
 
-    public List<OrderInfo.Main> retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
+    public OrderInfo.OrderList retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
         return orderService.retrieveAllOrder(accessToken, searchRequest, pageable);
     }
 }

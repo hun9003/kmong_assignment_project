@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,7 +19,7 @@ import java.util.List;
 public class OrderDto {
 
     @Getter
-    @Setter
+    @Builder
     @ToString
     @ApiModel(value = "상품 주문 요청 데이터", description = "상품 주문에 필요한 정보 입니다.")
     public static class RegisterOrderRequest {
@@ -50,29 +49,29 @@ public class OrderDto {
         private String etcMessage;
 
         @ApiModelProperty(name = "orderItemList", notes = "주문할 상품의 리스트 입니다.", required = true)
-        private List<RegisterOrderItem> orderItemList;
+        private List<RegisterOrderItemRequest> orderItemList;
 
     }
 
     @Getter
-    @Setter
+    @Builder
     @ToString
     @ApiModel(value = "주문 상품 요청 데이터", description = "주문한 상품에 필요한 정보 입니다.")
-    public static class RegisterOrderItem {
+    public static class RegisterOrderItemRequest {
         @NotNull(message = "orderCount 는 필수값입니다")
         @ApiModelProperty(name = "orderCount", example = "1", notes = "주문할 상품의 개수 입니다.", required = true)
         private Integer orderCount;
 
         @NotBlank(message = "itemToken 는 필수값입니다")
-        @ApiModelProperty(name = "itemToken", example = "itm_631eCfNg6g79g40V", notes = "상품의 토큰 입니다.", required = true)
+        @ApiModelProperty(name = "itemToken", example = "itm_dFaGqJiLTGCZhFzVYjkq", notes = "상품의 토큰 입니다.", required = true)
         private String itemToken;
 
         @NotBlank(message = "itemName 는 필수값입니다")
-        @ApiModelProperty(name = "itemToken", example = "티셔츠", notes = "상품의 이름 입니다.", required = true)
+        @ApiModelProperty(name = "itemToken", example = "남성 스포츠웨어 반바지 3타입", notes = "상품의 이름 입니다.", required = true)
         private String itemName;
 
         @NotNull(message = "itemPrice 는 필수값입니다")
-        @ApiModelProperty(name = "itemPrice", example = "10000", notes = "상품의 가격 입니다.", required = true)
+        @ApiModelProperty(name = "itemPrice", example = "9800", notes = "상품의 가격 입니다.", required = true)
         private Long itemPrice;
 
         @ApiModelProperty(name = "orderItemOptionGroupList", notes = "주문 상품의 옵션 그룹 리스트 입니다.", required = true)
@@ -80,7 +79,7 @@ public class OrderDto {
     }
 
     @Getter
-    @Setter
+    @Builder
     @ToString
     @ApiModel(value = "주문 상품 옵션 그룹 등록 요청 데이터", description = "주문 상품 옵션 그룹 등록에 필요한 정보 입니다.")
     public static class RegisterOrderItemOptionGroupRequest {
@@ -89,7 +88,7 @@ public class OrderDto {
         private Integer ordering;
 
         @NotBlank(message = "itemOptionGroupName 는 필수값입니다")
-        @ApiModelProperty(name = "itemOptionGroupName", example = "색상", notes = "주문 상품의 옵션 그룹 이름 입니다.", required = true)
+        @ApiModelProperty(name = "itemOptionGroupName", example = "종류", notes = "주문 상품의 옵션 그룹 이름 입니다.", required = true)
         private String itemOptionGroupName;
 
         @ApiModelProperty(name = "orderItemOptionList", notes = "주문 상품의 옵션 리스트 입니다.", required = true)
@@ -97,7 +96,7 @@ public class OrderDto {
     }
 
     @Getter
-    @Setter
+    @Builder
     @ToString
     @ApiModel(value = "주문 상품 옵션 등록 요청 데이터", description = "주문 상품 옵션 등록에 필요한 정보 입니다.")
     public static class RegisterOrderItemOptionRequest {
@@ -106,7 +105,7 @@ public class OrderDto {
         private Integer ordering;
 
         @NotBlank(message = "itemOptionName 는 필수값입니다")
-        @ApiModelProperty(name = "itemOptionName", example = "RED", notes = "주문 상품의 옵션 이름 입니다.", required = true)
+        @ApiModelProperty(name = "itemOptionName", example = "a타입", notes = "주문 상품의 옵션 이름 입니다.", required = true)
         private String itemOptionName;
 
         @NotNull(message = "itemOptionPrice 는 필수값입니다")
@@ -261,25 +260,18 @@ public class OrderDto {
     @ApiModel(value = "주문 리스트 조회 데이터", description = "주문 리스트 조회 데이터 입니다.")
     public static class OrderListResponse {
         @ApiModelProperty(name = "page", example = "1", notes = "현재 페이지 입니다.")
-        private final Integer page;
+        private final int page;
+        @ApiModelProperty(name = "totalPage", example = "10", notes = "전체 페이지 수 입니다.")
+        private final int totalPage;
         @ApiModelProperty(name = "size", example = "50", notes = "현재 페이지 사이즈 입니다.")
-        private final Integer size;
+        private final int size;
         @ApiModelProperty(name = "status", notes = "조회한 주문 상태 입니다.")
         private final Order.Status status;
         @ApiModelProperty(name = "startDate", example = "2022-08-01", notes = "조회한 시작 날짜 입니다.")
         private final String startDate;
         @ApiModelProperty(name = "endDate", example = "2022-08-31", notes = "조회한 마지막 날짜 입니다.")
         private final String endDate;
-        @ApiModelProperty(name = "orderList", notes = "주문 목록 입니다.")
-        private final List<Main> orderList;
-
-        public OrderListResponse(Integer page, Integer size, Order.Status status, String startDate, String endDate, List<OrderDto.Main> orderList) {
-            this.page = page;
-            this.size = size;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.status = status;
-            this.orderList = orderList;
-        }
+        @ApiModelProperty(name = "orderInfoList", notes = "주문 목록 입니다.")
+        private final List<Main> orderInfoList;
     }
 }

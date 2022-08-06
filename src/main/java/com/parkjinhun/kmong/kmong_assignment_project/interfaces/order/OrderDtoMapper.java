@@ -22,12 +22,14 @@ public interface OrderDtoMapper {
 
     OrderCommand.RegisterOrder of(OrderDto.RegisterOrderRequest request);
 
-    OrderCommand.RegisterOrderItem of(OrderDto.RegisterOrderItem request);
+    OrderCommand.RegisterOrderItem of(OrderDto.RegisterOrderItemRequest request);
 
     OrderCommand.RegisterOrderItemOptionGroup of(OrderDto.RegisterOrderItemOptionGroupRequest request);
 
     OrderCommand.RegisterOrderItemOption of(OrderDto.RegisterOrderItemOptionRequest request);
 
     OrderDto.RegisterResponse of(String orderToken);
+
+    OrderDto.OrderListResponse of(OrderInfo.OrderList orderListInfo);
 
 }

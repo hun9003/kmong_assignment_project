@@ -27,6 +27,19 @@ public class OrderInfo {
     @Getter
     @Builder
     @ToString
+    public static class OrderList {
+        private final int page;
+        private final int totalPage;
+        private final int size;
+        private final Order.Status status;
+        private final String startDate;
+        private final String endDate;
+        private final List<Main> orderInfoList;
+    }
+
+    @Getter
+    @Builder
+    @ToString
     public static class DeliveryInfo {
         private final String receiverName;
         private final String receiverPhone;

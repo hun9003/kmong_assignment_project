@@ -12,8 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -48,14 +46,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderInfo.Main> retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
+    public OrderInfo.OrderList retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
         if (!jwtTokenProvider.validateToken(accessToken)) throw new InvalidParamException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         String memberId = authentication.getName();
         var orderList = orderReader.getOrderList(memberId, searchRequest, pageable);
-        return orderList.map(order -> {
+        var orderInfoList = orderList.map(order -> {
             var orderItemList = order.getOrderItemList();
             return orderInfoMapper.of(order, orderItemList);
         }).toList();
+
+        return OrderInfo.OrderList.builder()
+                .page(pageable.getPageNumber()+1)
+                .totalPage(orderList.getTotalPages())
+                .size(pageable.getPageSize())
+                .status(searchRequest.getStatus())
+                .startDate(searchRequest.getStartDate())
+                .endDate(searchRequest.getEndDate())
+                .orderInfoList(orderInfoList)
+                .build();
     }
 }
