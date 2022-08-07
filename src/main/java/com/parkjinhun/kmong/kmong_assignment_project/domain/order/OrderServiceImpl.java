@@ -22,6 +22,12 @@ public class OrderServiceImpl implements OrderService {
     private final OrderInfoMapper orderInfoMapper;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * 상품 주문 서비스
+     * @param requestOrder  상품 주문 DTO
+     * @param accessToken   액세스 토큰
+     * @return              주문 토큰
+     */
     @Override
     @Transactional
     public String registerOrder(OrderCommand.RegisterOrder requestOrder, String accessToken) {
@@ -33,6 +39,12 @@ public class OrderServiceImpl implements OrderService {
         return order.getOrderToken();
     }
 
+    /**
+     * 주문 정보 열람 서비스
+     * @param accessToken   액세스 토큰
+     * @param orderToken    주문 토큰
+     * @return              주문 정보 객체
+     */
     @Override
     @Transactional(readOnly = true)
     public OrderInfo.Main retrieveOrder(String accessToken, String orderToken) {
@@ -45,6 +57,13 @@ public class OrderServiceImpl implements OrderService {
         return orderInfoMapper.of(order, orderItemList);
     }
 
+    /**
+     * 주문 정보 리스트 열람 서비스
+     * @param accessToken   액세스 토큰
+     * @param searchRequest 주문 검색 DTO
+     * @param pageable      페이지 객체
+     * @return              주문 리스트 정보 객체
+     */
     @Override
     public OrderInfo.OrderList retrieveAllOrder(String accessToken, OrderDto.SearchOrderRequest searchRequest, Pageable pageable) {
         if (!jwtTokenProvider.validateToken(accessToken)) throw new InvalidParamException(ErrorCode.MEMBER_FAIL_INVALID_TOKEN);

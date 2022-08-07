@@ -30,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
     private final RedisTemplate redisTemplate;
     private final RedisUtil redisUtil;
 
+    /**
+     * 회원 가입 서비스
+     * @param command   회원 가입 DTO
+     * @return          회원 정보 객체
+     */
     @Transactional
     @Override
     public MemberInfo registerMember(MemberCommand.RegisterMember command) {
@@ -41,6 +46,11 @@ public class MemberServiceImpl implements MemberService {
         return new MemberInfo(member);
     }
 
+    /**
+     * 로그인 서비스
+     * @param command   로그인 DTO
+     * @return          토큰 정보 객체
+     */
     @Transactional(readOnly = true)
     @Override
     public TokenInfo loginMember(MemberCommand.LoginMember command) {
@@ -66,6 +76,11 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 토큰 갱신 서비스
+     * @param reissue   토큰 갱신 DTO
+     * @return          토큰 정보
+     */
     @Override
     public TokenInfo reissueToken(MemberDto.ReissueTokenRequest reissue) {
         // 1. Refresh Token 검증
@@ -91,6 +106,10 @@ public class MemberServiceImpl implements MemberService {
         return tokenInfo;
     }
 
+    /**
+     * 로그아웃 서비스
+     * @param logout    로그아웃 DTO
+     */
     @Override
     public void logoutMember(MemberDto.LogoutRequest logout) {
         // 1. Access Token 검증
@@ -110,6 +129,10 @@ public class MemberServiceImpl implements MemberService {
         redisUtil.setBlackList(logout.getAccessToken(), "access_token", expiration);
     }
 
+    /**
+     * 회원 전체 삭제 서비스 (테스트 용)
+     */
+    @Deprecated
     @Override
     @Transactional
     public void deleteAllMember() {

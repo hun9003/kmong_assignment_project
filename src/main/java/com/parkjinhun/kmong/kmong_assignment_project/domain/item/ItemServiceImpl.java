@@ -23,6 +23,12 @@ public class ItemServiceImpl implements ItemService {
     private final ItemOptionSeriesFactory itemOptionSeriesFactory;
     private final JwtTokenProvider jwtTokenProvider;
 
+    /**
+     * 상품 등록 서비스
+     * @param command       상품 등록 DTO
+     * @param accessToken   엑세스 토큰
+     * @return              상품 토큰
+     */
     @Override
     @Transactional
     public String registerItem(ItemCommand.RegisterItemRequest command, String accessToken) {
@@ -37,6 +43,11 @@ public class ItemServiceImpl implements ItemService {
         return item.getItemToken();
     }
 
+    /**
+     * 상품 정보 열람 서비스
+     * @param itemToken     상품 토큰
+     * @return              상품 정보 객체
+     */
     @Override
     @Transactional(readOnly = true)
     public ItemInfo.Main retrieveItemInfo(String itemToken) {
@@ -45,6 +56,12 @@ public class ItemServiceImpl implements ItemService {
         return new ItemInfo.Main(item, itemOptionGroupInfoList);
     }
 
+    /**
+     * 상품 정보 리스트 열람 서비스
+     * @param keyword       검색 키워드
+     * @param pageable      페이지 객체
+     * @return              상품 리스트 정보 객체
+     */
     @Override
     public ItemInfo.ItemList retrieveAllItemInfo(String keyword, Pageable pageable) {
         var itemList = itemReader.findItemByKeyword(keyword, pageable);
@@ -52,6 +69,7 @@ public class ItemServiceImpl implements ItemService {
             var itemOptionGroupInfoList = itemReader.getItemOptionSeries(item);
             return new ItemInfo.Main(item, itemOptionGroupInfoList);
         }).collect(Collectors.toList());
+
         return ItemInfo.ItemList.builder()
                 .page(pageable.getPageNumber()+1)
                 .totalPage(itemList.getTotalPages())
@@ -61,6 +79,10 @@ public class ItemServiceImpl implements ItemService {
                 .build();
     }
 
+    /**
+     * 상품 전체 삭제 서비스 (테스트 용)
+     */
+    @Deprecated
     @Override
     @Transactional
     public void deleteAllItem() {

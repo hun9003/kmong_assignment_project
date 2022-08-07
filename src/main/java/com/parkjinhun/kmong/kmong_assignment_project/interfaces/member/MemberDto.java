@@ -21,12 +21,12 @@ public class MemberDto {
     public static class RegisterMemberRequest {
         @NotEmpty(message = "아이디는 필수 값 입니다.")
         @Pattern(regexp = "^[a-zA-Z]{1}[a-zA-Z0-9_]{5,11}$", message = "아이디는 6~12자 영문, 숫자를 사용 하세요.")
-        @ApiModelProperty(name = "memberId", example = "test1234", notes = "아이디는 6~12자 영문, 숫자를 입력 받습니다.", required = true)
+        @ApiModelProperty(name = "memberId", example = "test12345", notes = "아이디는 6~12자 영문, 숫자를 입력 받습니다.", required = true)
         private final String memberId;
 
         @NotEmpty(message = "이메일은 필수 값 입니다.")
         @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
-        @ApiModelProperty(name = "memberEmail", example = "test1234@example.com", notes = "이메일 형식에 맞게 입력 받습니다.", required = true)
+        @ApiModelProperty(name = "memberEmail", example = "test12345@example.com", notes = "이메일 형식에 맞게 입력 받습니다.", required = true)
         private final String memberEmail;
 
         @NotEmpty(message = "비밀번호는 필수 값 입니다.")

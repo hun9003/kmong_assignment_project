@@ -28,41 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate redisTemplate;
 
-//    @Override
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        // 1. Request Header 에서 JWT 토큰 추출
-//        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-//        // 2. validateToken 으로 토큰 유효성 검사
-//        if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-//            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-//            System.out.println(authentication);
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        }
-////        try {
-////
-////        } catch (SecurityException | MalformedJwtException e) {
-////            request.setAttribute("exception", ErrorCode.MEMBER_FAIL_INVALID_TOKEN);
-////        } catch (ExpiredJwtException e) {
-////            request.setAttribute("exception", ErrorCode.MEMBER_FAIL_EXPIRED_TOKEN);
-////        } catch (UnsupportedJwtException e) {
-////            request.setAttribute("exception", ErrorCode.MEMBER_FAIL_UNSUPPORTED_TOKEN);
-////        } catch (IllegalArgumentException e) {
-////            request.setAttribute("exception", ErrorCode.COMMON_INVALID_PARAMETER);
-////        } catch (Exception e) {
-////            log.error("================================================");
-////            log.error("JwtFilter - doFilterInternal() 오류발생");
-////            log.error("token : {}", token);
-////            log.error("Exception Message : {}", e.getMessage());
-////            log.error("Exception StackTrace : {");
-////            e.printStackTrace();
-////            log.error("}");
-////            log.error("================================================");
-////            request.setAttribute("exception", ErrorCode.COMMON_SYSTEM_ERROR);
-////        }
-//
-//        chain.doFilter(request, response);
-//    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 헤더에서 JWT 를 받아옵니다.

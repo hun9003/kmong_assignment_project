@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("크몽 사전과제 프로젝트")
+                .title("크몽 사전 과제 프로젝트")
                 .description("API 명세서")
                 .build();
     }
@@ -77,7 +77,7 @@ public class SwaggerConfig {
     @Setter
     @ApiModel
     static class Page {
-        @ApiModelProperty(value = "페이지 번호(0..N)")
+        @ApiModelProperty(value = "페이지 번호(1..N)")
         private Integer page;
 
         @ApiModelProperty(value = "페이지 크기", allowableValues="range[0, 100]")
