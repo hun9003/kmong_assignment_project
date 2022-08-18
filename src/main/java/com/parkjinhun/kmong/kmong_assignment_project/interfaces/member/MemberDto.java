@@ -111,7 +111,7 @@ public class MemberDto {
         private String accessToken;
 
         @NotEmpty(message = "잘못된 요청 입니다.")
-        @ApiModelProperty(name = "accessToken",
+        @ApiModelProperty(name = "refreshToken",
                 example = "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjAwNDk2NTR9.ExqgYevzLDn6Z2YPBpaA0mCFODlSjdRZgAokUe_zr98",
                 notes = "회원의 리프레시 토큰 입니다.")
         private String refreshToken;
