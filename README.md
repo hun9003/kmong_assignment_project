@@ -1,19 +1,19 @@
 # 쇼핑몰 프로젝트
-[Github](https://github.com/hun9003/kmong_assignment_project)
+[Github](https://github.com/hun9003/shopping_mall_project)
 
 ## 개발 환경
 - SpringBoot 2.7.2
 - Java 11
 
 ## Model
-- [회원](https://github.com/hun9003/kmong_assignment_project/tree/master/src/main/java/com/parkjinhun/kmong/kmong_assignment_project/domain/member)
-- [상품](https://github.com/hun9003/kmong_assignment_project/tree/master/src/main/java/com/parkjinhun/kmong/kmong_assignment_project/domain/item)
-- [주문](https://github.com/hun9003/kmong_assignment_project/tree/master/src/main/java/com/parkjinhun/kmong/kmong_assignment_project/domain/order)
+- [회원](https://github.com/hun9003/shopping_mall_project/tree/master/src/main/java/com/parkjinhun/shopping/shopping_mall_project/domain/member)
+- [상품](https://github.com/hun9003/shopping_mall_project/tree/master/src/main/java/com/parkjinhun/shopping/shopping_mall_project/domain/item)
+- [주문](https://github.com/hun9003/shopping_mall_project/tree/master/src/main/java/com/parkjinhun/shopping/shopping_mall_project/domain/order)
 
 ## Test Case
-- [회원](https://github.com/hun9003/kmong_assignment_project/blob/master/src/test/java/com/parkjinhun/kmong/kmong_assignment_project/interfaces/member/MemberApiControllerTests.java)
-- [상품](https://github.com/hun9003/kmong_assignment_project/blob/master/src/test/java/com/parkjinhun/kmong/kmong_assignment_project/interfaces/item/ItemApiControllerTests.java)
-- [주문](https://github.com/hun9003/kmong_assignment_project/blob/master/src/test/java/com/parkjinhun/kmong/kmong_assignment_project/interfaces/order/OrderApiControllerTests.java)
+- [회원](https://github.com/hun9003/shopping_mall_project/blob/master/src/test/java/com/parkjinhun/shopping/shopping_mall_project/interfaces/member/MemberApiControllerTests.java)
+- [상품](https://github.com/hun9003/shopping_mall_project/blob/master/src/test/java/com/parkjinhun/shopping/shopping_mall_project/interfaces/item/ItemApiControllerTests.java)
+- [주문](https://github.com/hun9003/shopping_mall_project/blob/master/src/test/java/com/parkjinhun/shopping/shopping_mall_project/interfaces/order/OrderApiControllerTests.java)
 
 ## 필수 설치
 
@@ -23,7 +23,7 @@
 
 ### MySQL 설치
 docker를 통해 MySQL을 설치하고 진행했습니다.<br/>
-terminal 을 통해 [kmong_assignment_project/docker-compose/](https://github.com/hun9003/kmong_assignment_project/tree/master/docker-compose) 디렉토리에 위치한 다음 <br/>
+terminal 을 통해 [shopping_mall_project/docker-compose/](https://github.com/hun9003/shopping_mall_project/tree/master/docker-compose) 디렉토리에 위치한 다음 <br/>
 ```docker-compose -p shopping-db up -d``` 를 입력합니다.
 
 ### Redis 설치
