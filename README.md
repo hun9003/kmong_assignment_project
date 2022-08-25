@@ -1,4 +1,4 @@
-# 크몽 사전과제 프로젝트
+# 쇼핑몰 프로젝트
 [Github](https://github.com/hun9003/kmong_assignment_project)
 
 ## 개발 환경
@@ -24,7 +24,7 @@
 ### MySQL 설치
 docker를 통해 MySQL을 설치하고 진행했습니다.<br/>
 terminal 을 통해 [kmong_assignment_project/docker-compose/](https://github.com/hun9003/kmong_assignment_project/tree/master/docker-compose) 디렉토리에 위치한 다음 <br/>
-```docker-compose -p kmong-db up -d``` 를 입력합니다.
+```docker-compose -p shopping-db up -d``` 를 입력합니다.
 
 ### Redis 설치
 토큰 재발급 등의 서비스를 위해 Redis를 설치 합니다.
@@ -36,7 +36,7 @@ $ docker pull redis
 $ docker run --name some-redis -p 6379:6379 -d redis
 
 # redis-cli 접속
-$ docker exec -it some-redis redis-cli
+$ docker exec -it shop-redis redis-cli
 ```
 
 ## API 명세서

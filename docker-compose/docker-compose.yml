@@ -1,14 +1,14 @@
 version: "3.7"
 services:
-  kmong-db:
+  shopping-db:
     image: mysql:8.0
     ports:
-      - "13306:3306"
+      - "23306:3306"
     environment:
-      - MYSQL_DATABASE=kmong
+      - MYSQL_DATABASE=shopping
       - MYSQL_ROOT_PASSWORD=root-pass
-      - MYSQL_USER=kmong-svc
-      - MYSQL_PASSWORD=kmong-pass
+      - MYSQL_USER=shopping-svc
+      - MYSQL_PASSWORD=shopping-pass
       - TZ=UTC
     command:
       - --character-set-server=utf8mb4

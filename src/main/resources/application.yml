@@ -14,14 +14,14 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:13306/kmong?serverTimezone=UTC&characterEncoding=UTF-8
-      username: kmong-svc
-      password: kmong-pass
+      jdbc-url: jdbc:mysql://localhost:23306/shopping?serverTimezone=UTC&characterEncoding=UTF-8
+      username: shopping-svc
+      password: shopping-pass
   flyway:
-    user: kmong-svc
-    password: kmong-pass
-    schemas: kmong
-    url: jdbc:mysql://localhost:13306/kmong?serverTimezone=UTC&characterEncoding=UTF-8
+    user: shopping-svc
+    password: shopping-pass
+    schemas: shopping
+    url: jdbc:mysql://localhost:23306/shopping?serverTimezone=UTC&characterEncoding=UTF-8
     enabled: true
 
 #  h2:
